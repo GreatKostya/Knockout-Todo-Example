@@ -1,0 +1,21 @@
+{
+  "name": "kotodo",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Konstantin <ck.kostya@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "knockout": "^3.4.0",
+    "moment": "^2.14.1"
+  }
+}
