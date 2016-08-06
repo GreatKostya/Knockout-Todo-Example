@@ -1,14 +1,14 @@
-/// <reference path="../typings/tsd.d.ts" />
-
 import ko = require("knockout");
 import domready = require("domready");
 import {HomePageViewModel} from './HomePageViewModel';
 
 require("./app.less");
-require("./components/listItem/taskItem");
+require("./components/taskItem/taskItem");
 
-var n = new HomePageViewModel(ko.utils.parseJson(window.localStorage.getItem("KoTodo")) || []);
+const LOCAL_STORAGE_NAME:string = "KoTodo";
 
-domready(function () {
-    ko.applyBindings(n);
+var homePageViewModel:HomePageViewModel = new HomePageViewModel(ko.utils.parseJson(window.localStorage.getItem(LOCAL_STORAGE_NAME)) || []);
+
+domready(() => {
+    ko.applyBindings(homePageViewModel);
 });

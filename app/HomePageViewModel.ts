@@ -3,25 +3,20 @@ import ko = require("knockout");
 
 class HomePageViewModel {
 
-    isReverse:KnockoutObservable<boolean>;
-    toggleCheckAllItem:KnockoutObservable<boolean>;
-    descriptionOfNewTask:KnockoutObservable<string> = ko.observable("");
-    tasks:KnockoutObservableArray<ITodo> = ko.observableArray<ITodo>();
-    allSelected:KnockoutObservable<boolean>;
-    displayTasks:KnockoutComputed<ITodo[]>;
-    filterOptions:string[] = ["all", "active", "completed"];
-    filterOption:KnockoutObservable<string>;
+    public isReverse:KnockoutObservable<boolean>;
+    public toggleCheckAllItem:KnockoutObservable<boolean>;
+    public descriptionOfNewTask:KnockoutObservable<string> = ko.observable("");
+    public tasks:KnockoutObservableArray<ITodo> = ko.observableArray<ITodo>();
+    public allSelected:KnockoutObservable<boolean>;
+    public displayTasks:KnockoutComputed<ITodo[]>;
+    public filterOptions:string[] = ["all", "active", "completed"];
+    public filterOption:KnockoutObservable<string>;
 
-    constructor(todos) {
+    constructor(todos:Array<{description:string, isDone:boolean}>) {
         this.filterOption = ko.observable(this.filterOptions[0]);
         this.isReverse = ko.observable(true);
-        this.toggleCheckAllItem = ko.observable(!this.remainingTasks())
-        this.tasks = ko.observableArray<ITodo>(todos.map((item)=> {
-            var todoInstance = new Todo(item.description, item.isDone);
-            console.log("todoInstance - " + typeof todoInstance);
-            console.log(todoInstance);
-            return todoInstance;
-        }));
+        this.toggleCheckAllItem = ko.observable(!this.remainingTasks());
+        this.tasks = ko.observableArray<ITodo>(todos.map((item)=> new Todo(item.description, item.isDone)));
 
         this.displayTasks = ko.computed(()=> {
             var arr = this.tasks().slice(0);
@@ -40,17 +35,15 @@ class HomePageViewModel {
 
         this.allSelected = ko.computed({
             write: (value) => {
-                this.tasks().forEach((task)=> {
+                this.tasks().forEach((task) => {
                     task.isDone(value)
                 })
             },
-            read: () => {
-                return !this.remainingTasks();
-            }
+            read: () => !this.remainingTasks()
         });
     };
 
-    filterList(array) {
+    public filterList(array) {
         var res = array.splice(0);
         switch (this.filterOption()) {
             case "all":
@@ -66,53 +59,42 @@ class HomePageViewModel {
         return res;
     }
 
-    deleteSelected() {
-        this.tasks((this.tasks().filter((item, i)=> {
-
-            return item.isDone() !== true;
-        })));
+    public deleteSelected():void {
+        this.tasks((this.tasks().filter((item)=> item.isDone() !== true)));
     }
 
-    filterByProgress(arr, flag) {
-        var res = arr.filter(function (item) {
-
-            return item.isDone() !== flag;
-        });
-
-        return res;
+    private filterByProgress(arr:Todo[], flag:boolean):Todo[] {
+        return arr.filter((item) => item.isDone() !== flag);
     }
 
-    getOnlyActiveTasks(arr) {
+    public getOnlyActiveTasks(arr):Todo[] {
         return this.filterByProgress(arr, true);
     }
 
-    getOnlyCompletedTasks(arr) {
+    public getOnlyCompletedTasks(arr):Todo[] {
         return this.filterByProgress(arr, false);
     }
 
-    deleteItem(item) {
+    public deleteItem(item):void {
         this.tasks.remove(item);
     }
 
-    add() {
+    public add():void {
         if (this.descriptionOfNewTask) {
             this.tasks.push(new Todo(this.descriptionOfNewTask()));
             this.descriptionOfNewTask("");
         }
     }
 
-    completedCount() {
-        return this.tasks().reduce((sum, currentItem, index, arr)=> {
-            return currentItem.isDone() ? ++sum : sum;
-        }, 0);
+    public completedCount():number {
+        return this.tasks().reduce((sum, currentItem) => currentItem.isDone() ? ++sum : sum, 0);
     }
 
-    remainingTasks() {
-        var amount = this.tasks().length - this.completedCount();
-        return amount;
+    public remainingTasks():number {
+        return this.tasks().length - this.completedCount();
     }
 
-    getTasks() {
+    public getTasks():Todo[] {
         var arr = this.tasks().slice(0);
         if (this.isReverse()) {
             arr.reverse();
