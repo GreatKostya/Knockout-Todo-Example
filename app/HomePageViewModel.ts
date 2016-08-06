@@ -43,7 +43,7 @@ class HomePageViewModel {
         });
     };
 
-    public filterList(array) {
+    public filterList(array: Todo[]) {
         var res = array.splice(0);
         switch (this.filterOption()) {
             case "all":
@@ -67,15 +67,15 @@ class HomePageViewModel {
         return arr.filter((item) => item.isDone() !== flag);
     }
 
-    public getOnlyActiveTasks(arr):Todo[] {
+    public getOnlyActiveTasks(arr: Todo[]):Todo[] {
         return this.filterByProgress(arr, true);
     }
 
-    public getOnlyCompletedTasks(arr):Todo[] {
+    public getOnlyCompletedTasks(arr: Todo[]):Todo[] {
         return this.filterByProgress(arr, false);
     }
 
-    public deleteItem(item):void {
+    public deleteItem(item: Todo):void {
         this.tasks.remove(item);
     }
 
