@@ -12,14 +12,15 @@
 <div class="header">Knockout TODO</div>
 <div class="content-wrapper">
 
+    <div class="error-message" data-bind="visible: isEmptyMessage">Please enter message</div>
     <div class="input-area">
         <div class="toggle-completed">
-            <input class="toggle" type="checkbox" data-bind="checked: allSelected">
+            <input class="toggle" type="checkbox" data-bind="checked: allSelected, valueUpdate: 'afterkeypress'">
         </div>
         <div class="input-message-area-wrapper">
 
             <input class="input-message-area"
-                   data-bind="value: descriptionOfNewTask">
+                   data-bind="value: messageOfNewTask, enterKey: add">
             <button class="send-message btn btn-message" data-bind="click: add">Add
                 task
             </button>

@@ -5,12 +5,13 @@ class HomePageViewModel {
 
     public isReverse:KnockoutObservable<boolean>;
     public toggleCheckAllItem:KnockoutObservable<boolean>;
-    public descriptionOfNewTask:KnockoutObservable<string> = ko.observable("");
+    public messageOfNewTask:KnockoutObservable<string> = ko.observable("");
     public tasks:KnockoutObservableArray<ITodo> = ko.observableArray<ITodo>();
     public allSelected:KnockoutObservable<boolean>;
     public displayTasks:KnockoutComputed<ITodo[]>;
     public filterOptions:string[] = ["all", "active", "completed"];
     public filterOption:KnockoutObservable<string>;
+    public isEmptyMessage:KnockoutObservable<boolean> = ko.observable(false);
 
     constructor(todos:Array<{description:string, isDone:boolean}>) {
         this.filterOption = ko.observable(this.filterOptions[0]);
@@ -43,7 +44,17 @@ class HomePageViewModel {
         });
     };
 
-    public filterList(array: Todo[]) {
+    public checkExictMessage() {
+        if (this.messageOfNewTask().length <= 1) {
+            this.isEmptyMessage(true);
+            return false;
+        } else {
+            this.isEmptyMessage(false);
+            return true;
+        }
+    }
+
+    public filterList(array:Todo[]) {
         var res = array.splice(0);
         switch (this.filterOption()) {
             case "all":
@@ -67,22 +78,22 @@ class HomePageViewModel {
         return arr.filter((item) => item.isDone() !== flag);
     }
 
-    public getOnlyActiveTasks(arr: Todo[]):Todo[] {
+    public getOnlyActiveTasks(arr:Todo[]):Todo[] {
         return this.filterByProgress(arr, true);
     }
 
-    public getOnlyCompletedTasks(arr: Todo[]):Todo[] {
+    public getOnlyCompletedTasks(arr:Todo[]):Todo[] {
         return this.filterByProgress(arr, false);
     }
 
-    public deleteItem(item: Todo):void {
+    public deleteItem(item:Todo):void {
         this.tasks.remove(item);
     }
 
     public add():void {
-        if (this.descriptionOfNewTask) {
-            this.tasks.push(new Todo(this.descriptionOfNewTask()));
-            this.descriptionOfNewTask("");
+        if (this.checkExictMessage()) {
+            this.tasks.push(new Todo(this.messageOfNewTask()));
+            this.messageOfNewTask("");
         }
     }
 
@@ -103,4 +114,6 @@ class HomePageViewModel {
     }
 }
 
-export {HomePageViewModel}
+export {
+    HomePageViewModel
+}
