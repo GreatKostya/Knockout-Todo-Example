@@ -151,7 +151,6 @@ interface KnockoutBindingHandler {
 
 interface KnockoutBindingHandlers {
     [bindingHandler: string]: KnockoutBindingHandler;
-
     // Controlling text and appearance
     visible: KnockoutBindingHandler;
     text: KnockoutBindingHandler;
@@ -174,7 +173,7 @@ interface KnockoutBindingHandlers {
     disable: KnockoutBindingHandler;
     value: KnockoutBindingHandler;
     textInput: KnockoutBindingHandler;
-    hasfocus: KnockoutBindingHandler;
+    hasFocus: KnockoutBindingHandler;
     checked: KnockoutBindingHandler;
     options: KnockoutBindingHandler;
     selectedOptions: KnockoutBindingHandler;
