@@ -28,6 +28,17 @@ function keyhandlerBindingFactory(keyCode) {
     };
 }
 
+ko.bindingHandlers["fadeAnimation"] = {
+    init: (element, valueAccessor) => {
+        var value = ko.unwrap(valueAccessor());
+        $(element).hide();
+    },
+    update: (element, valueAccessor) => {
+        var value = ko.unwrap(valueAccessor());
+        (value) ? $(element).fadeIn("slow") : $(element).fadeOut("fast");
+    }
+};
+
 ko.bindingHandlers["enterKey"] = keyhandlerBindingFactory(ENTER_KEY);
 ko.bindingHandlers["escapeKey"] = keyhandlerBindingFactory(ESCAPE_KEY);
 

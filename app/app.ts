@@ -4,6 +4,7 @@ import {HomePageViewModel} from './HomePageViewModel';
 
 require("./app.less");
 require("./components/taskItem/taskItem");
+require("./components/bindings");
 
 const LOCAL_STORAGE_NAME:string = "KoTodo";
 

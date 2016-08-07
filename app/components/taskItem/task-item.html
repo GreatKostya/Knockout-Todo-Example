@@ -1,9 +1,11 @@
-<div class="task-item">
+<div class="task-item" data-bind="fadeAnimation: $data.isDataItem">
     <div class="task-item-data-wrapper">
     <input class="toggle toggle-completed" type="checkbox" data-bind="checked: isDone">
-    <div class="task-item-message" data-bind="text: listItemName, event: {dblclick: itemClick}, visible: isEdit(), css: {'done-task': isDone() }"></div>
+    <div class="task-item-message" data-bind="text: listItemName, event: {dblclick: itemClick}, visible: !isEdit(), css: {'done-task': isDone() }"></div>
     <input class="edit-item" data-bind="value: listItemName,
-                       event: {blur: blurHandler}, visible: !isEdit()">
+    enterKey: blurHandler,
+   selectAndFocus: false,
+                       event: {blur: blurHandler}, visible: isEdit()">
     </div>
     <button class="delete-item btn" data-bind="text: 'delete', click: deleteItem"></button>
 </div>
