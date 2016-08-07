@@ -29,7 +29,7 @@
 
     <div class="tasks">
         <div style="text-align: center; font-size: 2em; " data-bind="visible: displayTasks().length == 0">No tasks</div>
-        <div data-bind="foreach: displayTasks">
+        <div data-bind="foreach: displayTasks" >
             <task-item params="{parent: $parent, dataItem: $data}"></task-item>
         </div>
     </div>
